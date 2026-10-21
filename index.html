@@ -621,14 +621,28 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
       $("adminDialog").hidden = true;
       showAdminState();
       say("Mode admin aktif.");
+    
     } catch (err) {
-      $("adminError").textContent =
-        "Login gagal. Pastikan Edge Function admin-check-password sudah dipasang dan kata sandi benar.";
-      console.error(err);
+      console.error("Admin login error:", err);
+
+      let detail = err?.message || String(err);
+
+      // Ambil detail respons dari Edge Function jika tersedia.
+      if (err?.context && typeof err.context.clone === "function") {
+        try {
+          const responseText = await err.context.clone().text();
+          if (responseText) {
+            detail += " | Detail server: " + responseText;
+          }
+        } catch (readError) {
+          console.error("Tidak bisa membaca detail server:", readError);
+        }
+      }
+
+      $("adminError").textContent = "Login gagal: " + detail;
     } finally {
       $("adminSubmit").disabled = false;
     }
-  });
 
   $("adminLogoutBtn").addEventListener("click", () => {
     isAdmin = false;
