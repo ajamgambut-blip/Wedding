@@ -610,7 +610,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
     try {
       // Endpoint server memverifikasi kata sandi dengan operasi aman.
       // Endpoint mengembalikan status verifikasi saja, tidak menghapus foto.
-      const { data, error } = await db.functions.invoke("admin-check-password", {
+      const { data, error } = await db.functions.invoke("admin-check-password-", {
         body: { password }
       });
       if (error) throw error;
