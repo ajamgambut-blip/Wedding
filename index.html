@@ -207,7 +207,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
   const SUPABASE_URL = "https://idukmctrpmsptkokiqzs.supabase.co";
   const SUPABASE_KEY = "sb_publishable_5ejFTTcjn-5AmjHCE8yv9A_IQMdIHK0";
   const BUCKET = "wedding-photos";
-  const MAX_BYTES = 5 * 1024 * 1024;
+  const MAX_BYTES = 800 * 1024;
   const MAX_SOURCE_BYTES = 20 * 1024 * 1024;
   const DELETE_FUNCTION = "clever-action";
 
@@ -280,14 +280,14 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
         img.src = localURL;
       });
 
-      const scale = Math.min(1, 1800 / Math.max(img.width, img.height));
+      const scale = Math.min(1, 1280 / Math.max(img.width, img.height));
       const canvas = document.createElement("canvas");
       canvas.width = Math.max(1, Math.round(img.width * scale));
       canvas.height = Math.max(1, Math.round(img.height * scale));
       canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
 
       const blob = await new Promise(resolve =>
-        canvas.toBlob(resolve, "image/jpeg", 0.82)
+        canvas.toBlob(resolve, "image/jpeg", 0.70)
       );
       if (!blob) throw new Error("Gagal memproses foto.");
       if (blob.size > MAX_BYTES) {
